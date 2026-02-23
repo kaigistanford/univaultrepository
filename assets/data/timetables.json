@@ -1,0 +1,36 @@
+[
+  {
+    "programme": "Diploma in Rural Development Planning",
+    "level": "Year 1",
+    "note": "Sample timetable (replace).",
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "slots": [
+      {
+        "time": "08:00 - 10:00",
+        "classes": {
+          "Monday": "DPT 06103 Population & Development",
+          "Tuesday": "Research Methods",
+          "Wednesday": "Computer Applications",
+          "Thursday": "Field Practical",
+          "Friday": "Communication Skills"
+        }
+      },
+      {
+        "time": "10:30 - 12:30",
+        "classes": {
+          "Monday": "Statistics",
+          "Tuesday": "GIS Basics",
+          "Wednesday": "Development Studies",
+          "Thursday": "Tutorials",
+          "Friday": "Seminar"
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+:root{--bg:#fff;--text:#111;--muted:#555;--card:#fff;--border:rgba(0,0,0,.12);--accent:#16a34a;--accent2:#0ea5e9;--radius:20px;--shadow:0 16px 40px rgba(0,0,0,.10)}
+.seg{display:flex; gap:8px; flex-wrap:wrap}
+.seg button{border:1px solid var(--border); background: color-mix(in oklab, var(--card) 78%, transparent);
+  color: var(--text); padding:10px 12px; border-radius: 14px; cursor:pointer}
+.seg button.active{background: linear-gradient(135deg, var(--accent), color-mix(in oklab, var(--accent) 65%, black)); color:#fff; border-color:transparent}
+@media print{
+  header.nav, #backToTop, #toast, #topProgress, .no-print{display:none !important}
+  body{background:#fff !important}
+}

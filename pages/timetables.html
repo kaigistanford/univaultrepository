@@ -1,0 +1,53 @@
+<!doctype html><html lang="en" data-theme="light"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>UniVault • Timetables</title>
+<link rel="stylesheet" href="../assets/css/styles.css"/></head><body>
+<div id="topProgress" aria-hidden="true"></div><div id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+<header class="nav"><div class="container nav-inner">
+  <div class="brand"><span class="logo" aria-hidden="true"></span><span>UniVault</span></div>
+  <nav class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="../library.html">Resources</a>
+    <a href="cover.html">Cover Pages</a>
+    <a href="timetables.html" class="active">Timetables</a>
+    <a href="lecturers.html">Lecturers</a>
+    <button class="btn" id="themeBtn" type="button">Dark mode</button>
+  </nav>
+</div></header>
+<main class="container" style="padding:18px 0" id="timetableWrap">
+  <div class="section-head">
+    <div><h2 class="section-title">Timetables</h2><p class="section-sub">Search by programme.</p></div>
+    <div class="controls"><div class="input"><span aria-hidden="true">⌕</span><input id="timetableSearch" type="text" placeholder="Search"/></div></div>
+  </div>
+  <div id="timetableList" style="display:flex; gap:10px; flex-wrap:wrap"></div>
+  <div id="timetableOut" style="margin-top:14px"></div>
+  <div class="notice">If you prefer PDFs, upload them in the “Timetables” category and they will appear in Resources.</div>
+</main>
+<button id="backToTop" class="fab" type="button" aria-label="Back to top">↑</button>
+<script src="../assets/js/app.js"></script>
+<script>
+(async function() {
+  try {
+    const r=await fetch("../assets/data/timetables.json",{cache:"no-store"});
+    const data=await r.json();
+    const list=document.getElementById("timetableList");
+    function renderOne(tt){
+      if(!tt) return;
+      const days=tt.days||["Monday","Tuesday","Wednesday","Thursday","Friday"];
+      const slots=tt.slots||[];
+      const rows=slots.map(s=>`<tr><td style="padding:10px;border-top:1px solid var(--border);font-weight:700">${s.time}</td>`+days.map(d=>`<td style="padding:10px;border-top:1px solid var(--border)">${(s.classes&&s.classes[d])||""}</td>`).join("")+`</tr>`).join("");
+      document.getElementById("timetableOut").innerHTML=`<div class="card box" style="padding:16px"><h3 style="margin:0 0 8px">${tt.programme}${tt.level?` <span class="pill">${tt.level}</span>`:""}</h3><div class="notice">${tt.note||""}</div><div style="overflow:auto;margin-top:12px"><table style="width:100%;border-collapse:collapse;min-width:720px"><thead><tr><th style="text-align:left;padding:10px;border-bottom:1px solid var(--border)">Time</th>`+days.map(d=>`<th style="text-align:left;padding:10px;border-bottom:1px solid var(--border)">${d}</th>`).join("")+`</tr></thead><tbody>`+rows+`</tbody></table></div></div>`;
+    }
+    function renderList() {
+      const q=(document.getElementById("timetableSearch").value||"").toLowerCase();
+      const filtered=(data||[]).filter(x=>(x.programme+" "+(x.level||"")).toLowerCase().includes(q));
+      list.innerHTML = filtered.map((x,i)=>`<button class="btn" type="button" data-i="${i}">${x.programme}${x.level?` • ${x.level}`:""}</button>`).join(" ");
+      list.querySelectorAll(".btn").forEach(b=>b.addEventListener("click",()=>renderOne(filtered[Number(b.dataset.i)])));
+      if(filtered[0]) renderOne(filtered[0]);
+    }
+    document.getElementById("timetableSearch").addEventListener("input",renderList);
+    renderList();
+  } catch(e) {}
+})();
+</script>
+</body></html>
